@@ -246,6 +246,9 @@ video { width:100%; min-height:600px; border-radius:8px; display:block; backgrou
       </tbody>
     </table>
   </div>
+  <div class="video-actions">
+    <a href="#" onclick="downloadDrawCSV();return false;">&#11015; Download Draw Results (.csv)</a>
+  </div>
 </div>
 
 <div class="section" id="winners">
@@ -516,6 +519,61 @@ video { width:100%; min-height:600px; border-radius:8px; display:block; backgrou
 </div>
 <script>
 (function(){var a=document.querySelectorAll('.eml');for(var i=0;i<a.length;i++){a[i].textContent=a[i].getAttribute('data-u')+String.fromCharCode(64)+a[i].getAttribute('data-d');}})();
+
+function downloadDrawCSV(){
+  var cl={
+    '887729':['M RIZKIANTO RAMADHAN','Indonesia','6707.86','39.24','13'],
+    '657823':['Puji Kris Widodo','Indonesia','3955.00','309.76','13'],
+    '640108':['NURSAID NURSAID','Indonesia','5553.00','62.29','18'],
+    '869923':['Miftakhus Surur','Indonesia','7470.00','44.93','14'],
+    '844130':['Ribun Bunyamin','Indonesia','2697.96','24.28','8'],
+    '883407':["LOU'LOU'IN NAZHOURAH",'Indonesia','1013.91','39.51','3'],
+    '862442':['ANDI FEBRIANTA PUTRA','Indonesia','1985.97','20.81','6']
+  };
+  var draws=[
+    [1,'Miftakhus Surur','869923'],
+    [2,'M RIZKIANTO RAMADHAN','887729'],
+    [3,'Puji Kris Widodo','657823'],
+    [4,'M RIZKIANTO RAMADHAN','887729'],
+    [5,'M RIZKIANTO RAMADHAN','887729'],
+    [6,'NURSAID NURSAID','640108'],
+    [7,'NURSAID NURSAID','640108'],
+    [8,'Puji Kris Widodo','657823'],
+    [9,'Ribun Bunyamin','844130'],
+    [10,'Puji Kris Widodo','657823'],
+    [11,'M RIZKIANTO RAMADHAN','887729'],
+    [12,"LOU'LOU'IN NAZHOURAH",'883407'],
+    [13,'NURSAID NURSAID','640108'],
+    [14,'ANDI FEBRIANTA PUTRA','862442'],
+    [15,'Ribun Bunyamin','844130'],
+    [16,'Miftakhus Surur','869923'],
+    [17,'M RIZKIANTO RAMADHAN','887729'],
+    [18,'NURSAID NURSAID','640108'],
+    [19,'Puji Kris Widodo','657823'],
+    [20,'Miftakhus Surur','869923'],
+    [21,'Miftakhus Surur','869923'],
+    [22,'NURSAID NURSAID','640108'],
+    [23,'M RIZKIANTO RAMADHAN','887729'],
+    [24,'Puji Kris Widodo','657823']
+  ];
+  var hdr=['Draw #','Winner Name','User ID','Country','Net Deposit (USD)','Trading Volume (Lots)','Lucky Draw Chances','Reward Category','Reward Item','Fulfilment Status'];
+  var rows=[hdr.join(',')];
+  for(var i=0;i<draws.length;i++){
+    var d=draws[i],c=cl[d[2]];
+    var name=d[1].indexOf(',')>-1||d[1].indexOf("'")>-1?'"'+d[1]+'"':d[1];
+    rows.push([d[0],name,d[2],c[1],c[2],c[3],c[4],'Lucky Draw','0.5g Gold Bar with TMGM Customised Packaging','Pending'].join(','));
+  }
+  var csv='\uFEFF'+rows.join('\r\n');
+  var blob=new Blob([csv],{type:'text/csv;charset=utf-8;'});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a');
+  a.href=url;
+  a.download='TMGM_2026_Indonesia_Gold_Rush_Promotion_Draw_Results.csv';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
 </script>
 </body>
 </html>
